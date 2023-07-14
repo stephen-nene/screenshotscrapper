@@ -33,7 +33,7 @@ To run the Scrapper Application locally, follow these steps:
 1. Clone the repository:
 
    ```bash
-    git clone <repository-url>
+    git clone https://github.com/stephen-nene/screenshotscrapper
    ```
 2. Change to the project directory:
 
