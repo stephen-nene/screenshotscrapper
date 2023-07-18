@@ -12,11 +12,12 @@ function App() {
     e.preventDefault();
     if (link) {
       try {
-        message.loading('Taking screenshot...');        
-        const response = await axios.post('https://screenshoter-8dz5.onrender.com/screenshot', { link });
+        const serverLink = 'http://localhost:3000';
+        message.loading('Taking screenshot...');
+        const response = await axios.post(`${serverLink}/screenshot`, { link });
         const { title, filename } = response.data;
         
-        const imageURL = `https://screenshoter-8dz5.onrender.com/images/${filename}`;
+        const imageURL = `${serverLink}/images/${filename}`;
         setImg(imageURL);
         setStatement(`Scrapped ${title}`)
         message.success(`Screenshot taken for "${title}"`);

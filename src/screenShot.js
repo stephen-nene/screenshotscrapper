@@ -2,6 +2,11 @@ const puppeteer = require('puppeteer');
 const path = require('path');
 require('dotenv').config();
 
+const waitForLoad = async (page) => {
+  await page.waitForNavigation({ waitUntil: 'networkidle0' });
+  await page.waitForTimeout(2000); // Additional delay to ensure all content is loaded
+};
+
 const screenShot = async (req, res) => {
   const { link } = req.body; // Get the link from the request body
   const browser = await puppeteer.launch({
@@ -18,10 +23,11 @@ const screenShot = async (req, res) => {
     headless: "new"
   });
   try {
-
     const page = await browser.newPage();
     await page.goto(link);
-    await page.waitForTimeout(2000);
+    
+    // Wait for the page to fully load
+    await waitForLoad(page);
 
     // Get the website's title
     const title = await page.title();
@@ -30,28 +36,19 @@ const screenShot = async (req, res) => {
     const filename = Date.now() + '.png';
 
     // Take a screenshot of the page and save it in the "images" directory
-    await page.screenshot
-      ({
-        path: path.join(__dirname, 'images', filename),
-        fullPage: true
-      });
-
-    // Close the browser
+    await page.screenshot({
+      path: path.join(__dirname, 'images', filename),
+      fullPage: true
+    });
 
     // Send the filename as the response
     res.json({ title, filename });
   } catch (e) {
     console.error(e);
-    res.status(500).json({
-       error: 'Scraping failed',  
-       message: e
-       });
+    res.status(500).json({ error: 'Scraping failed', message: e });
   } finally {
-
     await browser.close();
-
   }
-}
-
+};
 
 module.exports = { screenShot };
