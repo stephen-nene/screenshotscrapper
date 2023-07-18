@@ -12,7 +12,7 @@ function App() {
     e.preventDefault();
     if (link) {
       try {
-        const serverLink = 'http://localhost:3000';
+        const serverLink = 'https://screenshoter-8dz5.onrender.com';
         message.loading('Taking screenshot...');
         const response = await axios.post(`${serverLink}/screenshot`, { link });
         const { title, filename } = response.data;

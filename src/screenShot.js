@@ -4,8 +4,10 @@ require('dotenv').config();
 
 const waitForLoad = async (page) => {
   await page.waitForNavigation({ waitUntil: 'networkidle0' });
+  await page.waitForSelector('body'); // Wait for the main frame to be available
   await page.waitForTimeout(2000); // Additional delay to ensure all content is loaded
 };
+
 
 const screenShot = async (req, res) => {
   const { link } = req.body; // Get the link from the request body
