@@ -1,9 +1,22 @@
 const puppeteer = require('puppeteer');
 const path = require('path');
+require('dotenv').config();
 
 const screenShot = async (req, res) => {
   const { link } = req.body; // Get the link from the request body
-  const browser = await puppeteer.launch({ headless: "new" });
+  const browser = await puppeteer.launch({
+    args: [
+      '--disable-setuid-sandbox',
+      '--no-sandbox',
+      '--single-process',
+      '--no-zygote'
+    ],
+    executablePath:
+      process.env.NODE_ENV === "production"
+        ? process.env.PUPPETEER_EXECUTABLE_PATH
+        : puppeteer.executablePath(),
+    headless: "new"
+  });
   try {
 
     const page = await browser.newPage();
