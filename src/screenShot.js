@@ -42,7 +42,10 @@ const screenShot = async (req, res) => {
     res.json({ title, filename });
   } catch (e) {
     console.error(e);
-    res.status(500).json({ error: 'Scraping failed' });
+    res.status(500).json({
+       error: 'Scraping failed',  
+       message: e
+       });
   } finally {
 
     await browser.close();

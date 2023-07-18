@@ -13,10 +13,10 @@ function App() {
     if (link) {
       try {
         message.loading('Taking screenshot...');        
-        const response = await axios.post('https://screenshoter-fia6.onrender.com/screenshot', { link });
+        const response = await axios.post('https://screenshoter-8dz5.onrender.com/screenshot', { link });
         const { title, filename } = response.data;
         
-        const imageURL = `https://screenshoter-fia6.onrender.com/images/${filename}`;
+        const imageURL = `https://screenshoter-8dz5.onrender.com/images/${filename}`;
         setImg(imageURL);
         setStatement(`Scrapped ${title}`)
         message.success(`Screenshot taken for "${title}"`);
